@@ -19,22 +19,11 @@
                     conn.query(
                         'SELECT `return`, ref, id FROM pending WHERE completed = 0 order by created_at ASC limit 1;',
                         function (err, results2, fields) {
-                            if (results2[0]?.ref == 'delivery_history' && (results2[0]?.return || '').match(/\_\_contact\_id/)) {
-                                conn.query(`UPDATE pending SET completed = 2 WHERE id = '${results2[0].id}'`, (err) => {
-                                    if (err) console.log(err)
-                                    console.log('Last response: ', (results2[0]?.return || '').slice(0, 500))
+                            console.log('Last response: ', (results2[0]?.return || '').slice(0, 500))
 
-                                    setTimeout(() => {
-                                        resolve();
-                                    }, 1000)
-                                })
-                            } else {
-                                console.log('Last response: ', (results2[0]?.return || '').slice(0, 500))
-
-                                setTimeout(() => {
-                                    resolve();
-                                }, 1000)
-                            }
+                            setTimeout(() => {
+                                resolve();
+                            }, 1000)
                         }
                     );
                 }
